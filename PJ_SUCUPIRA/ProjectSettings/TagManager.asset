@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - floar
+  - municao
+  - vida
+  - dano
+  - recarregar
+  - fase2
   layers:
   - Default
   - TransparentFX
