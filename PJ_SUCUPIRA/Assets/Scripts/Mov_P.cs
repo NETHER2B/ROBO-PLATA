@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 
 public class Mov_P : MonoBehaviour
 {
@@ -17,16 +19,17 @@ public class Mov_P : MonoBehaviour
     public GameObject municao;
     public Transform posicaoTiro;
     public float speedtiro;
+    public float contadorlive;
 
 
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        
+
     }
 
     // Update is called once per frame
@@ -34,29 +37,29 @@ public class Mov_P : MonoBehaviour
     {
         verificar();
         movHorizontal = Input.GetAxisRaw("Horizontal");
-        rbPlayer.velocity = new Vector2(movHorizontal*speed ,rbPlayer.velocity.y);
-        if(Input.GetButtonDown("Jump") && sensor== true)
+        rbPlayer.velocity = new Vector2(movHorizontal * speed, rbPlayer.velocity.y);
+        if (Input.GetButtonDown("Jump") && sensor == true)
         {
-            rbPlayer.AddForce ( new Vector2(0, pulo),ForceMode2D.Impulse);
+            rbPlayer.AddForce(new Vector2(0, pulo), ForceMode2D.Impulse);
         }
-       
-        anim.SetInteger("run",(int)movHorizontal);
+
+        anim.SetInteger("run", (int)movHorizontal);
         anim.SetBool("jump", sensor);
-        
-        if(movHorizontal>0 && verifdirecao == true)
+
+        if (movHorizontal > 0 && verifdirecao == true)
         {
             direcao();
             speedtiro *= -1;
         }
-        if(movHorizontal<0 && verifdirecao == false)
+        if (movHorizontal < 0 && verifdirecao == false)
         {
             direcao();
             speedtiro *= -1;
         }
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             atira();
-            
+
         }
     }
 
@@ -66,10 +69,10 @@ public class Mov_P : MonoBehaviour
     }
     public void direcao()
     {
-      verifdirecao = !verifdirecao;
+        verifdirecao = !verifdirecao;
         float x = transform.localScale.x * -1;
-        
-        transform.localScale = new Vector3(x, transform.localScale.y,transform.localScale. z);
+
+        transform.localScale = new Vector3(x, transform.localScale.y, transform.localScale.z);
         municao.GetComponent<SpriteRenderer>().flipX = verifdirecao;
     }
     public void atira()
@@ -79,4 +82,13 @@ public class Mov_P : MonoBehaviour
         temp.GetComponent<Rigidbody2D>().velocity = new Vector2(speedtiro, 0);
         anim.SetTrigger("shoot");
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "bixo")
+        {
+            contadorlive++;
+            Destroy(collision.gameObject);
+        }
+    }
 }
+
