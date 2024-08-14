@@ -47,6 +47,8 @@ public class movimetacaoBasica : MonoBehaviour
         rbPlayer = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         Salvar = FindObjectOfType(typeof(salvar))as salvar;
+        municaoatual = 30;
+        
     }
 
     // Update is called once per frame
@@ -56,7 +58,8 @@ public class movimetacaoBasica : MonoBehaviour
         morte();
 
         Vidaa.text = vidaatual.ToString();
-       
+
+        textMunicao.text = municaoatual.ToString();
 
 
 
@@ -112,6 +115,7 @@ public class movimetacaoBasica : MonoBehaviour
         GameObject temporario = Instantiate(municao);
         temporario.transform.position = posicaoTiro.position;
         temporario.GetComponent<Rigidbody2D>().velocity = new Vector2(velocidadeTiro, 0);
+        muni();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -128,8 +132,8 @@ public class movimetacaoBasica : MonoBehaviour
         }
         if(collision.gameObject.tag == "recarregar")
         {
-            municaoatual = municaoatual + 5;
-            textMunicao.text += municaoatual.ToString();
+            municaoatual  += 5;
+            
             Destroy(collision.gameObject);
         }
         if( collision.gameObject.tag =="fase2")
@@ -162,7 +166,8 @@ public class movimetacaoBasica : MonoBehaviour
         if(municaoatual != 0)
         {
             municaoatual--;
-            GameObject temporario = Instantiate (municao);
+            
+            //GameObject temporario = Instantiate (municao);
         }
     }
 
