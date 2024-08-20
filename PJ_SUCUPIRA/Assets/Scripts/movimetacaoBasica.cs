@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class movimetacaoBasica : MonoBehaviour
 {
-    private salvar Salvar;
+    private penDrive save;
     
     [Header("Conf Player")]
     public float velocidade;
@@ -46,9 +46,9 @@ public class movimetacaoBasica : MonoBehaviour
     {
         rbPlayer = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        Salvar = FindObjectOfType(typeof(salvar))as salvar;
-        municaoatual = 30;
+        save = FindObjectOfType(typeof(penDrive))as penDrive;
         
+        municaoatual = save.MunAtual;
     }
 
     // Update is called once per frame
@@ -84,9 +84,10 @@ public class movimetacaoBasica : MonoBehaviour
             rbPlayer.AddForce(new Vector2(0, forcaPulo));
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && municaoatual >=1)
         {
             Atirar();
+            anim.SetTrigger("tiro");
         }
 
         anim.SetInteger("Run",(int)movimentoHorizontal);
